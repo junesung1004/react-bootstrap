@@ -36,3 +36,13 @@
     transform: rotate(360deg);
   }
 }
+
+.main-bg {
+  background-image: url("./10.jpg");
+  width: 100%;
+  height: 300px;
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  margin-bottom: 30px;
+}
