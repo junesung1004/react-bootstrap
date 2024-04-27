@@ -2,7 +2,7 @@ import { Container, Button, Nav, Navbar, Row, Col } from "react-bootstrap";
 import data from "./data";
 
 import { useState } from "react";
-import { Routes, Route, useNavigate } from "react-router-dom";
+import { Routes, Route, useNavigate, Outlet, Link } from "react-router-dom";
 //라우터는 창을 새로 불러오는게 아니라 재렌더링 방식을 사용
 
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -10,8 +10,8 @@ import "./App.css";
 import DetailPage from "./pages/Detail.js";
 
 function App() {
-  const [items, setItems] = useState(data);
-  const [photo, setPhoto] = useState(["11.webp", "12.webp", "13.webp"]);
+  const [items, setItems] = useState(data); // data는 변수니깐 state로 (data => items)
+  const [photo, setPhoto] = useState(["/11.webp", "/12.webp", "/13.webp"]);
   const navigate = useNavigate();
   return (
     <div className="App">
@@ -81,8 +81,31 @@ function App() {
             </>
           }
         ></Route>
-        <Route path="/detail" element={<DetailPage items={items} />}></Route>
+        {/* 
+        :id  => URL파라미터를 통해서 상세 아이템 변경
+        */}
+        <Route
+          path="/detail/:id"
+          element={<DetailPage items={items} img={photo} />}
+        ></Route>
+
+        {/*  */}
+
+        <Route path="/about" element={<AboutPage />}>
+          <Route path="address" element={<div>주소</div>}></Route>
+          <Route path="location" element={<div>위치</div>}></Route>
+        </Route>
+        <Route
+          path="/about/member"
+          element={<div>어바웃 멤버페이지</div>}
+        ></Route>
+        <Route path="*" element={<div>그 외의 페이지</div>}></Route>
       </Routes>
+      {/* 리액트는 하나의 html을 다시 그리는 방식이기 때문에
+      html을 이동하는 <a>태그 보다는 <Link>를 사용 */}
+      <Link to={"/about/address"}>
+        <Button variant={"success"}>리액트 부트스트랩 버튼</Button>
+      </Link>
     </div>
   );
 }
@@ -101,6 +124,19 @@ function ItemCol(props) {
         <p>{props.data.content}</p>
         <p>{props.data.price}원</p>
       </Col>
+    </>
+  );
+}
+
+//어바웃 페이지 컴포넌트
+function AboutPage() {
+  return (
+    <>
+      <p>
+        <h4>어바웃 페이지</h4>
+        <Outlet />
+        {/* Outlet으로 중첩 Route의 위치를 결정 */}
+      </p>
     </>
   );
 }
