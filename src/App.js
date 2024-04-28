@@ -8,6 +8,7 @@ import { Routes, Route, useNavigate, Outlet, Link } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
 import DetailPage from "./pages/Detail.js";
+import Cart from "./pages/Cart.jsx";
 
 function App() {
   const [items, setItems] = useState(data); // data는 변수니깐 state로 (data => items)
@@ -41,6 +42,13 @@ function App() {
               }}
             >
               About
+            </Nav.Link>
+            <Nav.Link
+              onClick={() => {
+                navigate("/cart");
+              }}
+            >
+              장바구니
             </Nav.Link>
             <Nav.Link
               onClick={() => {
@@ -99,13 +107,14 @@ function App() {
           path="/about/member"
           element={<div>어바웃 멤버페이지</div>}
         ></Route>
+        <Route path="/cart" element={<Cart />}></Route>
         <Route path="*" element={<div>그 외의 페이지</div>}></Route>
       </Routes>
       {/* 리액트는 하나의 html을 다시 그리는 방식이기 때문에
       html을 이동하는 <a>태그 보다는 <Link>를 사용 */}
-      <Link to={"/about/address"}>
+      {/* <Link to={"/about/address"}>
         <Button variant={"success"}>리액트 부트스트랩 버튼</Button>
-      </Link>
+      </Link> */}
     </div>
   );
 }
